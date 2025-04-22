@@ -49,8 +49,7 @@ export default function Home() {
                         <div className="flex gap-1">
                           <button className="bg-red-500 text-white px-4 py-2 cursor-pointer">Delete</button>
                           <button className="bg-green-500 text-white px-4 py-2 cursor-pointer">Done</button>
-                        </div>
-                          
+                        </div>   
                       </td>
                   </tr>
               </tbody>
