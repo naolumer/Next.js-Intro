@@ -46,8 +46,11 @@ export default function Home() {
                           Pending
                       </td>
                       <td className="px-6 py-4">
-                          <button>Delete</button>
-                          <button>Done</button>
+                        <div className="flex gap-1">
+                          <button className="bg-red-500 text-white px-4 py-2 cursor-pointer">Delete</button>
+                          <button className="bg-green-500 text-white px-4 py-2 cursor-pointer">Done</button>
+                        </div>
+                          
                       </td>
                   </tr>
               </tbody>
