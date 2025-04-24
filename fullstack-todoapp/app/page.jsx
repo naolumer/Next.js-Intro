@@ -1,6 +1,6 @@
 "use client"
 import Todo from "@/components/Todo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast,{Toaster} from "react-hot-toast";
 import axios from "axios";
 
@@ -10,6 +10,18 @@ export default function Home() {
         title:"",
         description:"",
     });
+
+    const [todoData, setTodoData] = useState([])
+
+    const getTodos = async()=>{
+        try{
+            const response = await axios("/api")
+            setTodoData(response.data.todos)
+        } catch(error){
+            toast.error("Error fetching todos")
+    }
+        
+    }
 
     const onChangeHandler = (e)=>{
         const name = e.target.name;
@@ -30,11 +42,50 @@ export default function Home() {
                 title:"",
                 description:""
             })
+            getTodos()
 
         } catch (error){
             toast.error("Error")
         }
     }
+
+    const deleteTodo = async(id)=>{
+        try{
+            const response = await axios.delete("/api",{},{
+            params:{
+                mongoId:id
+            }
+        })
+
+        toast.success(response.data.msg)
+        getTodos()
+
+        } catch(error){
+            toast.error("Error deleting todo")
+        }
+        
+    }
+
+    const updateTodo = async(id)=>{
+        try{
+            const response = await axios.put("/api",{},{
+            params:{
+                mongoId:id
+            }
+        })
+
+        toast.success(response.data.msg)
+        getTodos()
+
+        } catch(error){
+            toast.error("Error updating todo")
+        }  
+    }
+
+    useEffect(()=>{
+        getTodos()
+    },[])
+
   return (
     <>
       <form onSubmit={onSumbitHandler} className="flex items-start flex-col gap-2 w-[80%] max-w-[600px] mt-24 px-2 mx-auto">
@@ -67,9 +118,9 @@ export default function Home() {
                   </tr>
               </thead>
               <tbody>
-                <Todo/>
-                <Todo/>
-                <Todo/>
+                {todoData?.map((todo,index)=>(
+                    <Todo id={index} key={index} title={todo.title} description={todo.description} mongoId={todo._id} complete={todo.isComplete} />
+                ))}
               </tbody>
           </table>
           <Toaster/>
