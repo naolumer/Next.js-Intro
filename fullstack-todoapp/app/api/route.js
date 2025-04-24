@@ -32,7 +32,7 @@ export async function POST(request){
 
 export async function DELETE(request){
 
-    const {mongoId} = request.nextUrl.searchParams.get("mongoId")
+    const mongoId = request.nextUrl.searchParams.get("mongoId")
 
     await TodoModel.findByIdAndDelete(mongoId)
 
@@ -43,7 +43,7 @@ export async function DELETE(request){
 
 export async function PUT(request){
 
-    const {mongoId} = request.nextUrl.searchParams.get("mongoId")
+    const mongoId = request.nextUrl.searchParams.get("mongoId")
 
     await TodoModel.findByIdAndUpdate(mongoId,{
         $set:{isCompleted:true}

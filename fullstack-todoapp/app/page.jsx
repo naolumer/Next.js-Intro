@@ -14,8 +14,9 @@ export default function Home() {
     const [todoData, setTodoData] = useState([])
 
     const getTodos = async()=>{
+
         try{
-            const response = await axios("/api")
+            const response = await axios.get("/api")
             setTodoData(response.data.todos)
         } catch(error){
             toast.error("Error fetching todos")
@@ -24,6 +25,7 @@ export default function Home() {
     }
 
     const onChangeHandler = (e)=>{
+        
         const name = e.target.name;
         const value = e.target.value;
         setFormData(form => ({...form, [name]:value}))
@@ -51,7 +53,7 @@ export default function Home() {
 
     const deleteTodo = async(id)=>{
         try{
-            const response = await axios.delete("/api",{},{
+            const response = await axios.delete("/api",{
             params:{
                 mongoId:id
             }
@@ -67,6 +69,7 @@ export default function Home() {
     }
 
     const updateTodo = async(id)=>{
+
         try{
             const response = await axios.put("/api",{},{
             params:{
@@ -91,10 +94,16 @@ export default function Home() {
       <form onSubmit={onSumbitHandler} className="flex items-start flex-col gap-2 w-[80%] max-w-[600px] mt-24 px-2 mx-auto">
         <input value={formData.title} onChange={onChangeHandler} type="text" name="title" placeholder="Enter Title" className="px-3 py-2 border-2 border-gray-300 w-full"/>
         <textarea value={formData.description} onChange={onChangeHandler} name="description" placeholder="Enter Description" className="px-3 py-2 border-2 border-gray-300 w-full" id=""></textarea>
-        <button type="submit" className="bg-orange-600 py-3 px-11 cursor-pointer text-white">Add Todo</button>
+        <button
+            type="submit"
+            disabled={!formData.title.trim() || !formData.description.trim()}
+            className={`bg-orange-600 py-3 px-11 cursor-pointer text-white
+                ${!formData.title.trim() || !formData.description.trim() ? "opacity-50 cursor-not-allowed" : ""}
+            `}
+        >
+  Add Todo
+</button>
       </form>
-
-      
 
       <div className="relative overflow-x-auto mt-24 w-[90%] lg:w-[85%] xl:w-[65%] mx-auto">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -119,7 +128,9 @@ export default function Home() {
               </thead>
               <tbody>
                 {todoData?.map((todo,index)=>(
-                    <Todo id={index} key={index} title={todo.title} description={todo.description} mongoId={todo._id} complete={todo.isComplete} />
+                    <Todo id={index} key={index} title={todo.title} description={todo.description} mongoId={todo._id} 
+                    complete={todo.isCompleted} 
+                    deleteTodo= {deleteTodo} updateTodo={updateTodo}/>
                 ))}
               </tbody>
           </table>
