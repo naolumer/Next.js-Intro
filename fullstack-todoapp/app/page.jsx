@@ -1,5 +1,19 @@
+"use client"
+import Todo from "@/components/Todo";
+import { useState } from "react";
 
 export default function Home() {
+
+    const [formData, setFormData] = useState({
+        title:"",
+        description:"",
+    });
+
+    const onChangeHandler = (e)=>{
+        const name = e.target.name;
+        const value = e.target.value;
+        setFormData(form => ({...form, [name]:value}))
+    }
   return (
     <>
       <form className="flex items-start flex-col gap-2 w-[80%] max-w-[600px] mt-24 px-2 mx-auto">
@@ -10,9 +24,9 @@ export default function Home() {
 
       
 
-      <div className="relative overflow-x-auto mt-24 w-[60%] mx-auto">
+      <div className="relative overflow-x-auto mt-24 w-[90%] lg:w-[85%] xl:w-[65%] mx-auto">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead className="text-[10px] text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                       <th scope="col" className="px-6 py-3">
                           ID
@@ -32,7 +46,9 @@ export default function Home() {
                   </tr>
               </thead>
               <tbody>
-                  
+                <Todo/>
+                <Todo/>
+                <Todo/>
               </tbody>
           </table>
       </div>
