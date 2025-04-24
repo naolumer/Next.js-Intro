@@ -1,6 +1,7 @@
 "use client"
 import Todo from "@/components/Todo";
 import { useState } from "react";
+import toast,{Toaster} from "react-hot-toast";
 
 export default function Home() {
 
@@ -22,8 +23,11 @@ export default function Home() {
         try {
             // api code
 
-        } catch (error){
 
+            toast.success("Success")
+
+        } catch (error){
+            toast.error("Error")
         }
     }
   return (
@@ -31,7 +35,7 @@ export default function Home() {
       <form onSubmit={onSumbitHandler} className="flex items-start flex-col gap-2 w-[80%] max-w-[600px] mt-24 px-2 mx-auto">
         <input value={formData.title} onChange={onChangeHandler} type="text" name="title" placeholder="Enter Title" className="px-3 py-2 border-2 border-gray-300 w-full"/>
         <textarea value={formData.description} onChange={onChangeHandler} name="description" placeholder="Enter Description" className="px-3 py-2 border-2 border-gray-300 w-full" id=""></textarea>
-        <button type="submit" className="bg-orange-600 py-3 px-11 text-white">Add Todo</button>
+        <button type="submit" className="bg-orange-600 py-3 px-11 cursor-pointer text-white">Add Todo</button>
       </form>
 
       
@@ -63,6 +67,7 @@ export default function Home() {
                 <Todo/>
               </tbody>
           </table>
+          <Toaster/>
       </div>
 
     </>
