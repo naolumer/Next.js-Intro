@@ -2,6 +2,7 @@
 import Todo from "@/components/Todo";
 import { useState } from "react";
 import toast,{Toaster} from "react-hot-toast";
+import axios from "axios";
 
 export default function Home() {
 
@@ -22,9 +23,8 @@ export default function Home() {
 
         try {
             // api code
-
-
-            toast.success("Success")
+            const response = await axios.post("/api",formData)
+            toast.success(response.data.msg);
 
         } catch (error){
             toast.error("Error")
