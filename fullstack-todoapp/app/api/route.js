@@ -9,15 +9,18 @@ const LoadDB = async ()=>{
 LoadDB();
 
 export async function GET(request){
+
+    const todos = await TodoModel.find({})   
+
     return NextResponse.json({
-        msg:"get method hit"
+        todos:todos
     })
 }
 
 export async function POST(request){
 
     const {title,description} = await request.json()
-    
+
     await TodoModel.create({
         title,
         description

@@ -26,6 +26,11 @@ export default function Home() {
             const response = await axios.post("/api",formData)
             toast.success(response.data.msg);
 
+            setFormData({
+                title:"",
+                description:""
+            })
+
         } catch (error){
             toast.error("Error")
         }
